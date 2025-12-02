@@ -32,6 +32,8 @@ while ($isRunning) {
     } else if ($line == "quit") {
         $isRunning = false;
         echo "Fermeture du programme...\n";
+    } else if ($line == "help") {
+        $cmd->helpCommand();
     } else {
         echo "Commande inconnue : $line\n";
     }

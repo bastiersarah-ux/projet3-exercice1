@@ -20,8 +20,11 @@ class Command
     {
         $contacts = $this->cm->findAll();
 
+        echo "\nListe des contacts : \n\n";
+        echo "id, name, email, phone number \n\n";
+
         foreach ($contacts as $contact) {
-            echo "$contact \n";
+            echo "$contact \n\n";
         }
     }
 
@@ -68,5 +71,15 @@ class Command
         } else {
             echo "Une erreur est survenue lors de la suppression du contact.\n";
         }
+    }
+
+    public function helpCommand(): void
+    {
+        echo "\nhelp : affiche cette aide \n\n";
+        echo "list : liste les contacts \n\n";
+        echo "create [name], [email], [phone number] : crée un contact\n\n";
+        echo "delete [id] : supprime un contact\n\n";
+        echo "quit : quitte le programme\n\n\n\n";
+        echo "Attention à la syntaxe des commandes : les espaces et les virgules sont importants.\n\n";
     }
 }
