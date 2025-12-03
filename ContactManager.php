@@ -25,9 +25,10 @@ class ContactManager
     public function __construct(private PDO $pdo) {}
 
     /**
-     * Récupère tous les contacts de la table `contact`.
-     *
-     * @return array<int, Contact> Tableau associatif contenant les contacts.
+     * Récupère tous les contacts de la table `contact` grâce à une requête SQL.
+     * Retourne une liste dans lequel chaque élément est une instance de la classe Contact.
+     * 
+     * @return array<int, Contact> Liste de contacts.
      */
     public function findAll(): array
     {
@@ -44,6 +45,14 @@ class ContactManager
         return $resultat;
     }
 
+    /**
+     * Méthode qui récupère un contact individuellement de la table `contact` grâce à son ID. 
+     * Prend en paramètre l’id du contact à afficher.
+     * Retourne le contact ou null s'il n'est pas trouvé en BDD.
+     *
+     * @param integer $id
+     * @return Contact|null
+     */
     public function findById(int $id): ?Contact
     {
         $requete = $this->pdo->prepare("SELECT id, name, email, phone_number FROM contact WHERE id = ?");
@@ -56,25 +65,31 @@ class ContactManager
 
     /**
      * Insère un contact en BDD.
-     * 
-     * Retourne l'id du contact crée ou -1 si l'insertion de données ne s'effectue pas correctement en BDD.
+     * Retourne l'id du contact crée ou false si l'insertion de données ne s'effectue pas correctement en BDD.
      *
      * @param string $name Nom du contact
      * @param string $email Email du contact
      * @param string $phoneNumber Numéro de téléphone du contact
-     * @return integer identifiant (en BDD) du contact
+     * @return integer | false 
      */
-    public function insertContact(string $name, string $email, string $phoneNumber): int
+    public function insertContact(string $name, string $email, string $phoneNumber): int | false
     {
         try {
             $requete = $this->pdo->prepare("INSERT INTO contact (name, email, phone_number) VALUES (?, ?, ?)");
             $requete->execute([$name, $email, $phoneNumber]);
             return intval($this->pdo->lastInsertId());
         } catch (Exception $e) {
-            return -1; // On retourne -1 dans le cas où l'insertion de données ne s'effectue pas correctement.
+            return false; // On retourne false dans le cas où l'insertion de données ne s'effectue pas correctement.
         }
     }
 
+    /**
+     * Supprime un contact en BDD
+     * Retourne l'id du contact supprimé ou false si l'insertion de données ne s'effectue pas correctement en BDD.
+     * 
+     * @param integer $id
+     * @return integer | false
+     */
     public function deleteContact(int $id): int | false
     {
         try {
@@ -82,7 +97,7 @@ class ContactManager
             $requete->execute([$id]);
             return $requete->rowCount();
         } catch (Exception $e) {
-            return false;
+            return false; // On retourne false dans le cas où l'insertion de données ne s'effectue pas correctement.
         }
     }
 }

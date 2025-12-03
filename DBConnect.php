@@ -6,7 +6,6 @@ declare(strict_types=1);
  * DBConnect
  *
  * Classe responsable de la connexion à la base de données MySQL via PDO.
- * Utilise hôte localhost et la base de données `projet3`.
  */
 class DBConnect
 {
@@ -20,9 +19,8 @@ class DBConnect
     /**
      * Initialise la connexion PDO.
      *
-     * Le constructeur configure l'objet PDO avec le DSN et les informations
-     * d'authentification. En cas d'erreur de connexion, une
-     * exception PDOException sera levée.
+     * Le constructeur configure l'objet PDO avec le DSN et les informations d'authentification. 
+     * En cas d'erreur de connexion, une exception PDOException sera levée.
      *
      * @throws PDOException si la connexion à la base de données échoue.
      */
